@@ -1,0 +1,97 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}My Profile - Urban Ark Car Rental{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/profile.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="profile-container">
+    <div class="profile-header">
+        <div class="profile-picture-wrapper">
+            <div class="profile-picture">
+                {% if user.profile.profile_picture %}
+                    <img src="{{ user.profile.profile_picture.url }}" alt="{{ user.get_full_name|default:user.username }}'s Profile Picture">
+                {% else %}
+                    <i class="fas fa-user-circle default-profile-icon"></i>
+                {% endif %}
+                <div class="upload-overlay">
+                    <label for="profile-picture-upload" class="upload-btn">
+                        <i class="fas fa-camera"></i>
+                        <input type="file" id="profile-picture-upload" name="profile_picture" accept="image/*" class="hidden-input">
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="username-container">
+            <h2 class="username">{{ user.get_full_name|default:user.username }}</h2>
+            <p class="user-email">{{ user.email }}</p>
+        </div>
+    </div>
+
+    <div class="profile-section">
+        <h2>Personal Information</h2>
+        <div class="info-grid">
+            <div class="info-item">
+                <label>Name:</label>
+                <span>{{ user.get_full_name }}</span>
+            </div>
+            <div class="info-item">
+                <label>Email:</label>
+                <span>{{ user.email }}</span>
+            </div>
+            <div class="info-item">
+                <label>Phone:</label>
+                <span>{{ user.phone_number }}</span>
+            </div>
+            <div class="info-item">
+                <label>Date of Birth:</label>
+                <span>{{ user.date_of_birth|date:"M d, Y" }}</span>
+            </div>
+            <div class="info-item">
+                <label>Address:</label>
+                <span>{{ user.street_address }}<br>
+                      {{ user.city }}, {{ user.postal_code }}<br>
+                      {{ user.country }}</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="profile-section">
+        <h2>Driver Information</h2>
+        <div class="info-grid">
+            <div class="info-item">
+                <label>License Number:</label>
+                <span>{{ user.license_number }}</span>
+            </div>
+            <div class="info-item">
+                <label>License Country:</label>
+                <span>{{ user.license_country }}</span>
+            </div>
+            <div class="info-item">
+                <label>License Expiry:</label>
+                <span>{{ user.license_expiry|date:"M d, Y" }}</span>
+            </div>
+            {% if user.license_image %}
+            <div class="info-item full-width">
+                <label>License Image:</label>
+                <img src="{{ user.license_image.url }}" alt="Driver's License" class="license-image">
+            </div>
+            {% endif %}
+            {% if user.has_international_permit %}
+            <div class="info-item">
+                <label>International Permit:</label>
+                <span>{{ user.international_permit_number }}<br>
+                      Expires: {{ user.international_permit_expiry|date:"M d, Y" }}</span>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="profile-actions">
+        <a href="{% url 'edit_profile' %}" class="btn btn-primary">Edit Profile</a>
+    </div>
+</div>
+{% endblock %}

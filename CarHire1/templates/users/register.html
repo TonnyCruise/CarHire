@@ -1,0 +1,160 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Register - Urban Ark Car Rental{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/register.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="register-container">
+    <h2>Create Account</h2>
+    
+    <form method="post" enctype="multipart/form-data" class="registration-form">
+        {% csrf_token %}
+        
+        <div class="form-section">
+            <h3>User Information</h3>
+            
+            <div class="form-group">
+                <label for="id_first_name">First Name:</label>
+                {{ form.first_name }}
+                {{ form.first_name.errors }}
+            </div>
+
+            <div class="form-group">
+                <label for="id_last_name">Last Name:</label>
+                {{ form.last_name }}
+                {{ form.last_name.errors }}
+            </div>
+
+            <div class="form-group">
+                <label for="id_email">Email Address:</label>
+                {{ form.email }}
+                {{ form.email.errors }}
+            </div>
+
+            <div class="form-group">
+                <label for="id_password1">Password:</label>
+                {{ form.password1 }}
+                {{ form.password1.errors }}
+            </div>
+
+            <div class="form-group">
+                <label for="id_password2">Confirm Password:</label>
+                {{ form.password2 }}
+                {{ form.password2.errors }}
+            </div>
+
+            <div class="form-group">
+                <label for="id_phone_number">Phone Number:</label>
+                {{ form.phone_number }}
+                {{ form.phone_number.errors }}
+            </div>
+
+            <div class="form-group">
+                <label for="id_date_of_birth">Date of Birth:</label>
+                {{ form.date_of_birth }}
+                {{ form.date_of_birth.errors }}
+            </div>
+
+            <div class="form-group">
+                <label for="id_street_address">Street Address:</label>
+                {{ form.street_address }}
+                {{ form.street_address.errors }}
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="id_city">City:</label>
+                    {{ form.city }}
+                    {{ form.city.errors }}
+                </div>
+
+                <div class="form-group">
+                    <label for="id_postal_code">Postal Code:</label>
+                    {{ form.postal_code }}
+                    {{ form.postal_code.errors }}
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="id_country">Country:</label>
+                {{ form.country }}
+                {{ form.country.errors }}
+            </div>
+        </div>
+
+        <div class="form-section">
+            <h3>Driver Information</h3>
+            
+            <div class="form-group">
+                <label for="id_license_number">Driver's License Number:</label>
+                {{ form.license_number }}
+                {{ form.license_number.errors }}
+            </div>
+
+            <div class="form-group">
+                <label for="id_license_country">License Issuing Country:</label>
+                {{ form.license_country }}
+                {{ form.license_country.errors }}
+            </div>
+
+            <div class="form-group">
+                <label for="id_license_expiry">License Expiration Date:</label>
+                {{ form.license_expiry }}
+                {{ form.license_expiry.errors }}
+            </div>
+
+            <div class="form-group">
+                <label for="id_license_image">Upload License Image:</label>
+                {{ form.license_image }}
+                {{ form.license_image.errors }}
+            </div>
+
+            <div class="form-group">
+                <label for="id_has_international_permit">International Driving Permit:</label>
+                {{ form.has_international_permit }}
+                <span class="checkbox-label">I have an International Driving Permit</span>
+                {{ form.has_international_permit.errors }}
+            </div>
+
+            <div id="international-permit-fields" style="display: none;">
+                <div class="form-group">
+                    <label for="id_international_permit_number">Permit Number:</label>
+                    {{ form.international_permit_number }}
+                    {{ form.international_permit_number.errors }}
+                </div>
+
+                <div class="form-group">
+                    <label for="id_international_permit_expiry">Permit Expiration Date:</label>
+                    {{ form.international_permit_expiry }}
+                    {{ form.international_permit_expiry.errors }}
+                </div>
+            </div>
+        </div>
+
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary">Create Account</button>
+            <a href="{% url 'login' %}" class="btn btn-secondary">Already have an account?</a>
+        </div>
+    </form>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const hasPermitCheckbox = document.getElementById('id_has_international_permit');
+    const permitFields = document.getElementById('international-permit-fields');
+
+    function togglePermitFields() {
+        permitFields.style.display = hasPermitCheckbox.checked ? 'block' : 'none';
+    }
+
+    hasPermitCheckbox.addEventListener('change', togglePermitFields);
+    togglePermitFields();
+});
+</script>
+{% endblock %}
